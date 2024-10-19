@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Profile and Courses</title>
+
+    <link rel="stylesheet" href="../css/style.css"> <!-- Link to your CSS file -->
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            /* Use a readable font */
+            background-color: #f9f9f9;
+            /* Light background for contrast */
+        }
+
+        .teacher-profile,
+        .courses {
+            max-width: 1200px;
+            /* Optional: Limit max width for larger screens */
+            margin: 0 auto;
+            /* Center the sections */
+            padding: 20px;
+            /* Add padding for better spacing */
+        }
+
+        .teacher-profile .card,
+        .courses .box.card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+            width: 100%;
+            /* Full width */
+        }
+
+        .tutor img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .flex {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            /* Center align items */
+        }
+
+        .flex p {
+            margin: 10px 0;
+            flex: 1 1 45%;
+            /* Adjusts based on available space */
+        }
+
+        .details-card {
+            background-color: #f0f0f0;
+            /* Light gray background for cards */
+            border: 1px solid #ddd;
+            /* Light border */
+            border-radius: 8px;
+            /* Rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+            padding: 15px;
+            /* Padding inside the card */
+            margin: 10px;
+            /* Space between cards */
+            flex: 1;
+            /* Allow cards to grow equally */
+            font-size: small;
+            height: 7rem;
+            display: flex;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .details-list {
+            margin-top: 10px;
+        }
+
+        .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .box {
+            flex: 1 1 calc(25% - 20px);
+            /* Adjust width of course boxes */
+            margin: 10px;
+            /* Add margin between boxes */
+        }
+
+        .box .thumb img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .heading {
+            margin-bottom: 20px;
+            font-size: 24px;
+            /* Adjust font size for emphasis */
+        }
+
+        .card h3.title {
+            text-align: center;
+            /* Center the course titles */
+            margin: 10px 0;
+        }
+
+        .inline-btn {
+            display: inline-block;
+            background-color: #007bff;
+            /* Bootstrap primary color */
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            /* Remove underline */
+            margin-top: 15px;
+            /* Space above the button */
+            transition: background-color 0.3s;
+        }
+
+        .inline-btn:hover {
+            background-color: #0056b3;
+            /* Darker shade on hover */
+        }
+
+        .flex.card {
+            list-style-type: none;
+            /* Remove bullet points from the list */
+            padding: 0;
+            /* Remove default padding */
+        }
+
+
+        /* Availability Section */
+        .availability {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .slot {
+            padding: 15px;
+            border: 2px solid #28a745;
+            margin: 5px;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.3s;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .available {
+            background-color: #28a745;
+        }
+
+        .booked {
+            background-color: #dc3545;
+            cursor: not-allowed;
+        }
+
+        .selected {
+            background-color: #ffc107;
+            transform: scale(1.05);
+        }
+
+        /* Booking form styles */
+        #booking-form {
+            margin: auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            /* max-width: 400px; */
+            position: relative;
+            text-align: left;
+            transition: transform 0.3s;
+        }
+
+        #booking-form:hover {
+            transform: translateY(-5px);
+        }
+
+        #booking-form label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #booking-form input {
+            margin-bottom: 15px;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        #booking-form input:focus {
+            border-color: #66afe9;
+            outline: none;
+        }
+
+        #booking-form button {
+            padding: 12px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+        }
+
+        #booking-form button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .availability {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .slot {
+                width: 80%;
+                /* Make the slots take full width on smaller screens */
+            }
+
+            #booking-form {
+                width: 90%;
+                /* Make the form responsive */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slot {
+                font-size: 14px;
+                /* Smaller font size on mobile */
+            }
+
+            #booking-form button {
+                padding: 10px;
+                /* Smaller button on mobile */
+            }
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+
+    <div class="nav-bar">
+        <nav class="navbar">
+            <a href="../home.html"><i class="fas fa-chalkboard-user"></i><span>Home</span></a>
+            <a href="../courses.html"><i class="fas fa-graduation-cap"></i><span>Courses</span></a>
+            <a href="../contact.html"><i class="fas fa-headset"></i><span>Contact Us</span></a>
+            <a href="../about.html"><i class="fas fa-question"></i><span>About</span></a>
+        </nav>
+    </div>
+
+
+
+    <section class="teacher-profile">
+        <h1 class="heading">Profile Details</h1>
+        <div class="details card">
+            <div class="tutor">
+                <img src="images/pic-2.jpg" alt="">
+                <h3>Dr. Damanpreet Singh</h3>
+                <span>Professor</span>
+                <span>Department: Computer Science & Engineering</span>
+            </div>
+        </div>
+    
+        <!-- Contact Details -->
+        <h2 class="heading">Contact Details</h2>
+        <div class="flex card">
+            <div class="details-card">
+                <p>Phone (O): <span>+91-1672-253210</span></p>
+            </div>
+            <div class="details-card">
+                <p>Phone (R): <span>+91-1672-253211</span></p>
+            </div>
+            <div class="details-card">
+                <p>Mobile: <span>+91-94640-96000</span></p>
+            </div>
+            <div class="details-card">
+                <p>Email: <span>damanpreets@sliet.ac.in</span></p>
+            </div>
+        </div>
+    
+        <!-- Educational Details -->
+        <h2 class="heading">Educational Details</h2>
+        <div class="card details-card">
+            <p>Educational Qualification: <span>Ph.D., M.Tech, B.Tech.</span></p>
+        </div>
+    
+        <!-- Experience -->
+        <h2 class="heading">Experience</h2>
+        <div class="card details-card">
+            <p>Teaching Experience: <span>25 Years</span></p>
+            
+            
+            
+        </div>
+    </section>
+    
+
+    <section>
+        <!-- Availability Section -->
+        <h2 class="heading">Mentor Availability</h2>
+        <div class="availability">
+            <div class="slot available" data-time="9am">9 AM</div>
+            <div class="slot available" data-time="10am">10 AM</div>
+            <div class="slot booked" data-time="11am">11 AM</div>
+            <div class="slot available" data-time="12pm">12 PM</div>
+            <div class="slot available" data-time="1pm">1 PM</div>
+            <div class="slot booked" data-time="2pm">2 PM</div>
+            <div class="slot available" data-time="3pm">3 PM</div>
+            <div class="slot available" data-time="4pm">4 PM</div>
+            <div class="slot booked" data-time="5pm">5 PM</div>
+        </div>
+
+        <!-- Book a Slot Form -->
+        <div id="booking-form" style="display: none;">
+            <h2 class="heading">Book Your Slot</h2>
+            <form id="slot-form">
+                <label for="student-name">Name:</label>
+                <input type="text" id="student-name" name="student-name" required>
+
+                <label for="student-email">Email:</label>
+                <input type="email" id="student-email" name="student-email" required>
+
+                <label for="student-phone">Phone:</label>
+                <input type="tel" id="student-phone" name="student-phone" required>
+
+                <input type="hidden" id="selected-time" name="selected-time" value="">
+                <button type="submit" class="btn">Confirm Booking</button>
+            </form>
+        </div>
+    </section>
+
+
+    <section class="courses">
+
+        <h1 class="heading">our courses</h1>
+
+        <div class="box-container">
+
+            <div class="box">
+                <div class="thumb">
+                    <img src="../images/thumb-1.png" alt="">
+                    <span>10 videos</span>
+                </div>
+                <h3 class="title">complete HTML tutorial</h3>
+                <a href="../playlist.html" class="inline-btn">view playlist</a>
+            </div>
+
+            <div class="box">
+                <div class="thumb">
+                    <img src="../images/thumb-2.png" alt="">
+                    <span>10 videos</span>
+                </div>
+                <h3 class="title">complete CSS tutorial</h3>
+                <a href="../playlist.html" class="inline-btn">view playlist</a>
+            </div>
+
+            <div class="box">
+                <div class="thumb">
+                    <img src="../images/thumb-3.png" alt="">
+                    <span>10 videos</span>
+                </div>
+                <h3 class="title">complete javascript tutorial</h3>
+                <a href="../playlist.html" class="inline-btn">view playlist</a>
+            </div>
+
+            <div class="box">
+                <div class="thumb">
+                    <img src="../images/thumb-4.png" alt="">
+                    <span>10 videos</span>
+                </div>
+                <h3 class="title">complete Boostrap tutorial</h3>
+                <a href="../playlist.html" class="inline-btn">view playlist</a>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Add event listener to each slot
+        const slots = document.querySelectorAll('.slot');
+        const bookingForm = document.getElementById('booking-form');
+        const selectedTimeInput = document.getElementById('selected-time');
+
+        slots.forEach(slot => {
+            slot.addEventListener('click', function () {
+                if (this.classList.contains('available')) {
+                    // Mark as selected
+                    slots.forEach(s => s.classList.remove('selected')); // Remove selection from others
+                    this.classList.add('selected');
+                    this.classList.remove('available');
+                    this.classList.add('booked');
+
+                    // Show the booking form
+                    selectedTimeInput.value = this.getAttribute('data-time'); // Set the selected time
+                    bookingForm.style.display = 'block';
+
+                    alert(`You have selected the slot for ${this.getAttribute('data-time')}. Please fill out the form to confirm your booking.`);
+                } else {
+                    alert('This time slot is already booked.');
+                }
+            });
+        });
+
+        // Handle form submission
+        document.getElementById('slot-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Collect the form data
+            const studentName = document.getElementById('student-name').value;
+            const studentEmail = document.getElementById('student-email').value;
+            const studentPhone = document.getElementById('student-phone').value;
+            const selectedTime = selectedTimeInput.value;
+
+            // Here you can handle the data as needed (e.g., send it to a server)
+            console.log(`Booking confirmed for ${studentName} (${studentEmail}, ${studentPhone}) at ${selectedTime}.`);
+
+            // Reset the form and hide it
+            this.reset();
+            bookingForm.style.display = 'none';
+
+            // Show alert immediately after form submission
+            alert(`Thank you, ${studentName}! You will be reminded shortly about your booking at ${selectedTime}.`);
+
+            // Show a second alert after 5 seconds
+            setTimeout(() => {
+                alert(`Reminder: You have a booking at ${selectedTime}.`);
+            }, 5000);
+        });
+    </script>
+
+</body>
+
+</html>
